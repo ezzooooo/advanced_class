@@ -1,0 +1,84 @@
+# 3주차: CI/CD 파이프라인 - Release 빌드 설정
+#
+# 태그 생성 시 Release APK/AAB를 빌드합니다.
+# 예: v1.0.0 태그 push 시 실행
+
+name: Release Build
+
+on:
+  push:
+    tags:
+      - 'v*'  # v로 시작하는 태그에만 반응
+
+jobs:
+  # ===================
+  # Release Android 빌드
+  # ===================
+  release-android:
+    name: Release Android
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📥 Checkout
+        uses: actions/checkout@v4
+
+      - name: ☕ Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+
+      - name: 🐦 Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.24.0'
+          channel: 'stable'
+          cache: true
+
+      - name: 📦 Install dependencies
+        run: flutter pub get
+
+      # Keystore 설정 (GitHub Secrets 사용)
+      - name: 🔐 Setup Keystore
+        env:
+          KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
+          KEY_PROPERTIES: ${{ secrets.KEY_PROPERTIES }}
+        run: |
+          # Keystore 파일 생성
+          echo "$KEYSTORE_BASE64" | base64 --decode > android/app/upload-keystore.jks
+          
+          # key.properties 파일 생성
+          echo "$KEY_PROPERTIES" > android/key.properties
+
+      # Release APK 빌드
+      - name: 🤖 Build Release APK
+        run: flutter build apk --release
+
+      # Release AAB 빌드 (Play Store 업로드용)
+      - name: 📦 Build Release AAB
+        run: flutter build appbundle --release
+
+      # 빌드 결과물 업로드
+      - name: 📤 Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-apk
+          path: build/app/outputs/flutter-apk/app-release.apk
+
+      - name: 📤 Upload AAB
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-aab
+          path: build/app/outputs/bundle/release/app-release.aab
+
+      # GitHub Release 생성
+      - name: 🎉 Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            build/app/outputs/flutter-apk/app-release.apk
+            build/app/outputs/bundle/release/app-release.aab
+          generate_release_notes: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
