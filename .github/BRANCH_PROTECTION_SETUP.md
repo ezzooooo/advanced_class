@@ -3,11 +3,13 @@
 ## GitHub 웹 UI를 통한 설정 방법
 
 ### 1단계: 저장소 설정 페이지로 이동
+
 1. GitHub 저장소 페이지로 이동
 2. 상단 메뉴에서 **Settings** 클릭
 3. 왼쪽 사이드바에서 **Branches** 클릭
 
 ### 2단계: 브랜치 보호 규칙 추가
+
 1. **Add branch protection rule** 또는 **Add rule** 버튼 클릭
 2. **Branch name pattern**에 `main` 입력
 3. 다음 옵션들을 체크:
@@ -24,6 +26,7 @@
 4. **Create** 또는 **Save changes** 클릭
 
 ### 3단계: develop 브랜치에도 동일하게 설정
+
 1. 다시 **Add branch protection rule** 클릭
 2. **Branch name pattern**에 `develop` 입력
 3. main과 동일한 설정 적용
@@ -43,4 +46,3 @@
   - `build-android` (Android 빌드)
   - `build-ios` (iOS 빌드) - 선택사항
   - `build-web` (Web 빌드)
-
