@@ -22,6 +22,8 @@ class ForceUpdateDialog extends StatelessWidget {
     required UpdateCheckResult result,
     required VoidCallback onUpdate,
   }) {
+    print('result: $result');
+
     return showDialog(
       context: context,
       barrierDismissible: false, // 바깥 터치로 닫기 방지
