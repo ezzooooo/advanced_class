@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'week2_performance/week2_menu_page.dart';
 
@@ -22,7 +23,9 @@ abstract class Human {
 abstract class MyPureInterface {
   // 외부 라이브러리에서 extends 불가, implements만 가능
   void greet() {
-    print('Hello, World!');
+    if (kDebugMode) {
+      print('Hello, World!');
+    }
   }
 
   void breathe();
@@ -33,13 +36,17 @@ class Flyable {
   Flyable({required this.type});
 
   void fly() {
-    print('Flying...');
+    if (kDebugMode) {
+      print('Flying...');
+    }
   }
 }
 
 class Swimmable {
   void swim() {
-    print('Swimming...');
+    if (kDebugMode) {
+      print('Swimming...');
+    }
   }
 }
 
@@ -65,7 +72,9 @@ class MyPureInterfaceImpl extends Human implements MyPureInterface, Animal {
 
   @override
   void greet() {
-    print('Hello, World!');
+    if (kDebugMode) {
+      print('Hello, World!');
+    }
   }
 
   @override
@@ -215,29 +224,12 @@ class TodoEntity {
 }
 
 void addTodo(BuildContext context) {
-  List<TodoEntity> todoList = [];
-
-  void saveTodo(TodoEntity todo) {
-    todoList.add(todo);
-  }
-
   showModalBottomSheet(
     context: context,
     builder: (context) {
       return AddTodoBottomSheet();
     },
   );
-
-  void a() {
-    saveTodo(
-      TodoEntity(
-        title: '텍스트 필드에서 입력한 제목',
-        description: '텍스트 필드에서 입력한 설명',
-        isDone: false,
-        isFavorite: true || false,
-      ),
-    );
-  }
 }
 
 class AddTodoBottomSheet extends StatefulWidget {
@@ -273,7 +265,9 @@ class _AddTodoBottomSheetState extends State<AddTodoBottomSheet> {
           controller: titleController,
           decoration: InputDecoration(border: InputBorder.none),
           onSubmitted: (value) {
-            print(value);
+            if (kDebugMode) {
+              print(value);
+            }
           },
         ),
         Row(children: []),

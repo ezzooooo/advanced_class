@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 /// 2주차: 성능 최적화 - 불필요한 rebuild 예제 (안티패턴)
@@ -18,7 +19,9 @@ class _BadCounterPageState extends State<BadCounterPage> {
   @override
   Widget build(BuildContext context) {
     // 문제: 카운터가 변경될 때마다 전체 트리가 rebuild됨
-    print('🔴 BadCounterPage build() 호출됨');
+    if (kDebugMode) {
+      print('🔴 BadCounterPage build() 호출됨');
+    }
 
     return Scaffold(
       appBar: AppBar(title: const Text('Bad Example - 불필요한 Rebuild')),
@@ -53,12 +56,16 @@ class _BadCounterPageState extends State<BadCounterPage> {
 /// ❌ 안티패턴: 매번 새로운 인스턴스 생성
 class HeavyWidget extends StatelessWidget {
   HeavyWidget({super.key}) {
-    print('🔴 HeavyWidget 인스턴스 생성됨');
+    if (kDebugMode) {
+      print('🔴 HeavyWidget 인스턴스 생성됨');
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    print('🔴 HeavyWidget build() 호출됨');
+    if (kDebugMode) {
+      print('🔴 HeavyWidget build() 호출됨');
+    }
 
     // 실제로 무거운 연산 수행
     final startTime = DateTime.now();
@@ -90,7 +97,9 @@ class HeavyWidget extends StatelessWidget {
 
     final endTime = DateTime.now();
     final duration = endTime.difference(startTime).inMilliseconds;
-    print('🔴 HeavyWidget 빌드 시간: ${duration}ms (매번 계산!)');
+    if (kDebugMode) {
+      print('🔴 HeavyWidget 빌드 시간: ${duration}ms (매번 계산!)');
+    }
 
     // 극도로 복잡한 위젯 트리 생성
     return Container(
@@ -105,7 +114,7 @@ class HeavyWidget extends StatelessWidget {
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.1),
+            color: Colors.black.withValues(alpha: 0.1),
             blurRadius: 10,
             spreadRadius: 2,
           ),
@@ -137,7 +146,7 @@ class HeavyWidget extends StatelessWidget {
                           shape: BoxShape.circle,
                           boxShadow: [
                             BoxShadow(
-                              color: Colors.black.withOpacity(0.2),
+                              color: Colors.black.withValues(alpha: 0.2),
                               blurRadius: 3,
                             ),
                           ],
@@ -167,7 +176,7 @@ class HeavyWidget extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.8),
+                color: Colors.white.withValues(alpha: 0.8),
                 borderRadius: BorderRadius.circular(8),
               ),
               child: Column(
@@ -228,7 +237,9 @@ class BadObjectCreation extends StatelessWidget {
   Widget build(BuildContext context) {
     // 문제: 매 빌드마다 새로운 함수 객체 생성
     void handleTap() {
-      print('Tapped!');
+      if (kDebugMode) {
+        print('Tapped!');
+      }
     }
 
     // 문제: 매 빌드마다 새로운 리스트 생성

@@ -1,4 +1,5 @@
 import 'package:advanced_class/main.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 /// 2주차: 성능 최적화 - const 위젯 활용 예제
@@ -92,7 +93,9 @@ class _ConstInfoCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('🟢 _ConstInfoCard build(): $title');
+    if (kDebugMode) {
+      print('🟢 _ConstInfoCard build(): $title');
+    }
 
     return Card(
       color: color.withValues(alpha: 0.1),
@@ -121,7 +124,9 @@ class _NonConstInfoCard extends StatelessWidget {
     required this.description,
     required this.color,
   }) {
-    print('🔴 _NonConstInfoCard 생성자 호출: $title');
+    if (kDebugMode) {
+      print('🔴 _NonConstInfoCard 생성자 호출: $title');
+    }
   }
 
   final String title;
@@ -130,7 +135,9 @@ class _NonConstInfoCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('🔴 _NonConstInfoCard build(): $title');
+    if (kDebugMode) {
+      print('🔴 _NonConstInfoCard build(): $title');
+    }
 
     return Card(
       color: color.withValues(alpha: 0.1),
@@ -201,9 +208,11 @@ class _IdentityChecker extends StatelessWidget {
     ];
 
     for (final r in results) {
-      print(
-        '🔬 ${r.name}: identical=${r.isIdentical}, addr1=${r.addr1}, addr2=${r.addr2}',
-      );
+      if (kDebugMode) {
+        print(
+          '🔬 ${r.name}: identical=${r.isIdentical}, addr1=${r.addr1}, addr2=${r.addr2}',
+        );
+      }
     }
 
     return Card(

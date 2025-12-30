@@ -1,7 +1,7 @@
-/// 1주차: 테스팅 기초 - Mocking 대상 인터페이스
-///
-/// 외부 의존성(API, DB)을 추상화한 Repository입니다.
-/// 테스트 시 Mock으로 대체할 수 있습니다.
+// 1주차: 테스팅 기초 - Mocking 대상 인터페이스
+//
+// 외부 의존성(API, DB)을 추상화한 Repository입니다.
+// 테스트 시 Mock으로 대체할 수 있습니다.
 
 class User {
   final String id;

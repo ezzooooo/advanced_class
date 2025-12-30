@@ -108,24 +108,13 @@ class MyWidget extends StatelessWidget {
     //       ㄴ Icon
     //       ㄴ Text
 
-    AppBar(
-      leading: Icon(Icons.add),
-      title: Text('My Recipe App'),
-      actions: [
-        Icon(Icons.abc, size: 30, color: Colors.red),
+    return Column(
+      children: [
+        Icon(Icons.add),
+        SizedBox(height: 5, child: Text('Hello2')),
         Text('Hello'),
+        SizedBox(child: Row(children: [Icon(Icons.add), Text('Hello3')])),
       ],
-    );
-
-    return Container(
-      child: Column(
-        children: [
-          Icon(Icons.add),
-          SizedBox(height: 5, child: Text('Hello2')),
-          Text('Hello'),
-          SizedBox(child: Row(children: [Icon(Icons.add), Text('Hello3')])),
-        ],
-      ),
     );
   }
 }
@@ -150,16 +139,25 @@ class _SeatPageState extends State<SeatPage> {
 
   @override
   Widget build(BuildContext context) {
-    return SeatSelectBox(selectRow, selectColumn, onSelected);
+    return SeatSelectBox(
+      selectRow: selectRow,
+      selectColumn: selectColumn,
+      onSelected: onSelected,
+    );
   }
 }
 
 class SeatSelectBox extends StatefulWidget {
-  SeatSelectBox(this.selectRow, this.selectColumn, this.onSelected);
+  const SeatSelectBox({
+    super.key,
+    required this.selectRow,
+    required this.selectColumn,
+    required this.onSelected,
+  });
 
-  int? selectRow;
-  int? selectColumn;
-  void Function(int row, int column) onSelected;
+  final int? selectRow;
+  final int? selectColumn;
+  final void Function(int row, int column) onSelected;
 
   @override
   State<SeatSelectBox> createState() => _SeatSelectBoxState();

@@ -1,11 +1,11 @@
-/// 7주차: 앱 보안 - 환경별 설정
-///
-/// --dart-define을 활용한 환경 분리
-///
-/// 빌드 명령어:
-/// - 개발: flutter run --dart-define=ENV=dev
-/// - 스테이징: flutter run --dart-define=ENV=staging
-/// - 프로덕션: flutter run --dart-define=ENV=prod
+// 7주차: 앱 보안 - 환경별 설정
+//
+// --dart-define을 활용한 환경 분리
+//
+// 빌드 명령어:
+// - 개발: flutter run --dart-define=ENV=dev
+// - 스테이징: flutter run --dart-define=ENV=staging
+// - 프로덕션: flutter run --dart-define=ENV=prod
 
 enum Environment { dev, staging, prod }
 

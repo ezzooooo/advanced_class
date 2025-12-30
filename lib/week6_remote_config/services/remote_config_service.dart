@@ -1,4 +1,5 @@
 import 'package:firebase_remote_config/firebase_remote_config.dart';
+import 'package:flutter/foundation.dart';
 
 /// Firebase Remote Config를 관리하는 서비스
 ///
@@ -59,7 +60,9 @@ class RemoteConfigService {
       final bool updated = await _remoteConfig.fetchAndActivate();
       return updated;
     } catch (e) {
-      print('Remote Config fetch 실패: $e');
+      if (kDebugMode) {
+        print('Remote Config fetch 실패: $e');
+      }
       return false;
     }
   }
@@ -108,16 +111,18 @@ class RemoteConfigService {
 
   /// 모든 설정값 출력 (디버깅용)
   void printAllValues() {
-    print('=== Remote Config Values ===');
-    print('minimumVersion: $minimumVersion');
-    print('isMaintenanceMode: $isMaintenanceMode');
-    print('maintenanceMessage: $maintenanceMessage');
-    print('isNewFeatureEnabled: $isNewFeatureEnabled');
-    print('welcomeMessage: $welcomeMessage');
-    print('maxUploadSizeMB: $maxUploadSizeMB');
-    print('apiBaseUrl: $apiBaseUrl');
-    print('lastFetchTime: $lastFetchTime');
-    print('lastFetchStatus: $lastFetchStatus');
-    print('============================');
+    if (kDebugMode) {
+      print('=== Remote Config Values ===');
+      print('minimumVersion: $minimumVersion');
+      print('isMaintenanceMode: $isMaintenanceMode');
+      print('maintenanceMessage: $maintenanceMessage');
+      print('isNewFeatureEnabled: $isNewFeatureEnabled');
+      print('welcomeMessage: $welcomeMessage');
+      print('maxUploadSizeMB: $maxUploadSizeMB');
+      print('apiBaseUrl: $apiBaseUrl');
+      print('lastFetchTime: $lastFetchTime');
+      print('lastFetchStatus: $lastFetchStatus');
+      print('============================');
+    }
   }
 }

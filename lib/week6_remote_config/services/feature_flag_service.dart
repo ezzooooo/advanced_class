@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'remote_config_service.dart';
 
 /// Feature Flag 관리 서비스
@@ -108,14 +109,16 @@ class FeatureFlagService {
 
   /// 모든 Feature Flag 상태 출력
   void printAllFlags() {
-    print('=== Feature Flags ===');
-    print('$flagNewHomeUI: $isNewHomeUIEnabled');
-    print('$flagDarkModeEnabled: $isDarkModeEnabled');
-    print('$flagShowBetaFeatures: $showBetaFeatures');
-    print('$flagNewPaymentSystem: $useNewPaymentSystem');
-    print('$flagShowReviewPrompt: $showReviewPrompt');
-    print('$flagAdsEnabled: $isAdsEnabled');
-    print('=====================');
+    if (kDebugMode) {
+      print('=== Feature Flags ===');
+      print('$flagNewHomeUI: $isNewHomeUIEnabled');
+      print('$flagDarkModeEnabled: $isDarkModeEnabled');
+      print('$flagShowBetaFeatures: $showBetaFeatures');
+      print('$flagNewPaymentSystem: $useNewPaymentSystem');
+      print('$flagShowReviewPrompt: $showReviewPrompt');
+      print('$flagAdsEnabled: $isAdsEnabled');
+      print('=====================');
+    }
   }
 
   /// Feature Flag 목록 (UI 표시용)

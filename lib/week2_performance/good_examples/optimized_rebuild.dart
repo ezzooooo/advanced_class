@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 /// 2주차: 성능 최적화 - 최적화된 rebuild 예제 (베스트 프랙티스)
@@ -17,7 +18,9 @@ class _GoodCounterPageState extends State<GoodCounterPage> {
 
   @override
   Widget build(BuildContext context) {
-    print('🟢 GoodCounterPage build() 호출됨');
+    if (kDebugMode) {
+      print('🟢 GoodCounterPage build() 호출됨');
+    }
 
     return Scaffold(
       appBar: AppBar(title: const Text('Good Example - 최적화된 Rebuild')),
@@ -93,13 +96,17 @@ class _HeavyWidgetOptimizedState extends State<HeavyWidgetOptimized> {
     _calculationResult += heavyList.length.toDouble();
 
     _buildTime = DateTime.now().difference(startTime).inMilliseconds;
-    print('🟢 HeavyWidgetOptimized initState 계산 시간: ${_buildTime}ms (최초 1회만!)');
+    if (kDebugMode) {
+      print('🟢 HeavyWidgetOptimized initState 계산 시간: ${_buildTime}ms (최초 1회만!)');
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     _buildCount++;
-    print('🟢 HeavyWidgetOptimized build() 호출됨 (${_buildCount}번째)');
+    if (kDebugMode) {
+      print('🟢 HeavyWidgetOptimized build() 호출됨 ($_buildCount번째)');
+    }
 
     // 위젯 트리는 build마다 생성되지만, 무거운 계산은 initState에서만 수행
     // Bad Example과 동일하게 복잡한 위젯 트리
@@ -115,7 +122,7 @@ class _HeavyWidgetOptimizedState extends State<HeavyWidgetOptimized> {
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.1),
+            color: Colors.black.withValues(alpha: 0.1),
             blurRadius: 10,
             spreadRadius: 2,
           ),
@@ -147,7 +154,7 @@ class _HeavyWidgetOptimizedState extends State<HeavyWidgetOptimized> {
                           shape: BoxShape.circle,
                           boxShadow: [
                             BoxShadow(
-                              color: Colors.black.withOpacity(0.2),
+                              color: Colors.black.withValues(alpha: 0.2),
                               blurRadius: 3,
                             ),
                           ],
@@ -177,7 +184,7 @@ class _HeavyWidgetOptimizedState extends State<HeavyWidgetOptimized> {
             Container(
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.8),
+                color: Colors.white.withValues(alpha: 0.8),
                 borderRadius: BorderRadius.circular(8),
               ),
               child: Column(
@@ -229,7 +236,9 @@ class _CounterDisplay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('🟢 _CounterDisplay build() 호출됨 - counter: $counter');
+    if (kDebugMode) {
+      print('🟢 _CounterDisplay build() 호출됨 - counter: $counter');
+    }
 
     return Text(
       'Counter: $counter',
@@ -268,7 +277,9 @@ class _GoodObjectCreationState extends State<GoodObjectCreation> {
 
   // ✅ 메서드로 정의하여 재사용
   void _handleTap(String item) {
-    print('Tapped: $item');
+    if (kDebugMode) {
+      print('Tapped: $item');
+    }
   }
 
   @override

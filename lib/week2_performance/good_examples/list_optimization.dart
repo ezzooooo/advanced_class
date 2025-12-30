@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 /// 2주차: 성능 최적화 - 리스트 최적화 예제
@@ -41,21 +42,25 @@ class _BadListExample extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('🔴 BadListExample build() - 100개 항목 모두 생성 시작');
+    if (kDebugMode) {
+      print('🔴 BadListExample build() - 100개 항목 모두 생성 시작');
+    }
     final startTime = DateTime.now();
 
     final items = List.generate(
       100, // 1000개는 너무 많아서 100개로 축소
       (index) {
-        if (index % 20 == 0) {
-          print('🔴 Item $index 생성 중...');
+        if (kDebugMode && index % 20 == 0) {
+          debugPrint('🔴 Item $index 생성 중...');
         }
         return _HeavyListItem(index: index, isBuilder: false);
       },
     );
 
     final duration = DateTime.now().difference(startTime).inMilliseconds;
-    print('🔴 BadListExample 생성 완료: ${duration}ms');
+    if (kDebugMode) {
+      print('🔴 BadListExample 생성 완료: ${duration}ms');
+    }
 
     return Column(
       children: [
@@ -84,7 +89,9 @@ class _GoodListExample extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('🟢 GoodListExample build() - builder 사용 (즉시 완료)');
+    if (kDebugMode) {
+      print('🟢 GoodListExample build() - builder 사용 (즉시 완료)');
+    }
 
     return Column(
       children: [
@@ -123,8 +130,8 @@ class _HeavyListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // 콘솔에서 어떤 항목이 빌드되는지 확인
-    if (index % 100 == 0) {
-      print('${isBuilder ? "🟢" : "🔴"} Item $index build()');
+    if (kDebugMode && index % 100 == 0) {
+      debugPrint('${isBuilder ? "🟢" : "🔴"} Item $index build()');
     }
 
     return Card(
@@ -152,19 +159,23 @@ class _ImageListExample extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('🖼️ ImageListExample build() - 100개 이미지 항목 모두 생성 시작');
+    if (kDebugMode) {
+      print('🖼️ ImageListExample build() - 100개 이미지 항목 모두 생성 시작');
+    }
     final startTime = DateTime.now();
 
     // 모든 이미지 항목을 한번에 생성
     final items = List.generate(100, (index) {
-      if (index % 10 == 0) {
-        print('🖼️ ImageItem $index 생성 중...');
+      if (kDebugMode && index % 10 == 0) {
+        debugPrint('🖼️ ImageItem $index 생성 중...');
       }
       return _ImageListItem(index: index);
     });
 
     final duration = DateTime.now().difference(startTime).inMilliseconds;
-    print('🖼️ ImageListExample 생성 완료: ${duration}ms (이미지 로드는 별도)');
+    if (kDebugMode) {
+      print('🖼️ ImageListExample 생성 완료: ${duration}ms (이미지 로드는 별도)');
+    }
 
     return Column(
       children: [
@@ -206,7 +217,9 @@ class _ImageListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // 모든 항목의 build 호출 로그
-    print('🖼️ ImageListItem $index build() 호출');
+    if (kDebugMode) {
+      print('🖼️ ImageListItem $index build() 호출');
+    }
 
     return Card(
       margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
