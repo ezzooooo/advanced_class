@@ -21,14 +21,11 @@ class _BadCounterPageState extends State<BadCounterPage> {
     print('🔴 BadCounterPage build() 호출됨');
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Bad Example - 불필요한 Rebuild'),
-      ),
+      appBar: AppBar(title: const Text('Bad Example - 불필요한 Rebuild')),
       body: Column(
         children: [
           // 문제 1: const가 아닌 위젯들도 매번 rebuild
           HeavyWidget(), // const 없음!
-
           // 문제 2: 변경되지 않는 위젯도 rebuild
           Container(
             padding: EdgeInsets.all(16), // const 없음!
@@ -63,12 +60,145 @@ class HeavyWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     print('🔴 HeavyWidget build() 호출됨');
 
-    // 무거운 위젯 시뮬레이션
+    // 실제로 무거운 연산 수행
+    final startTime = DateTime.now();
+
+    // 1. 복잡한 수학 계산 (약 100-200ms 소요)
+    double result = 0;
+    for (int i = 0; i < 5000000; i++) {
+      result += i * 0.001;
+      // 추가 연산으로 더 무겁게
+      if (i % 100 == 0) {
+        result = result / 1.1 + i * 0.5;
+      }
+    }
+
+    // 2. 문자열 연산 (메모리 할당)
+    final heavyStringBuffer = StringBuffer();
+    for (int i = 0; i < 1000; i++) {
+      heavyStringBuffer.write('Heavy calculation $i ');
+    }
+    result += heavyStringBuffer.length.toDouble();
+
+    // 3. 리스트 연산
+    final List<int> heavyList = [];
+    for (int i = 0; i < 10000; i++) {
+      heavyList.add(i);
+      if (i % 2 == 0) heavyList.remove(i);
+    }
+    result += heavyList.length.toDouble();
+
+    final endTime = DateTime.now();
+    final duration = endTime.difference(startTime).inMilliseconds;
+    print('🔴 HeavyWidget 빌드 시간: ${duration}ms (매번 계산!)');
+
+    // 극도로 복잡한 위젯 트리 생성
     return Container(
-      height: 100,
-      color: Colors.blue.shade100,
-      child: Center(
-        child: Text('Heavy Widget'),
+      height: 300,
+      margin: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [Colors.blue.shade100, Colors.purple.shade100],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+        borderRadius: BorderRadius.circular(12),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.1),
+            blurRadius: 10,
+            spreadRadius: 2,
+          ),
+        ],
+      ),
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            // 엄청나게 많은 위젯 생성 (화면에 보이지도 않음)
+            Row(
+              children: List.generate(500, (index) {
+                return Container(
+                  margin: const EdgeInsets.all(2),
+                  child: Column(
+                    children: [
+                      Container(
+                        width: 30,
+                        height: 30,
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: [
+                              Colors.primaries[index % Colors.primaries.length],
+                              Colors.primaries[(index + 1) %
+                                  Colors.primaries.length],
+                            ],
+                          ),
+                          shape: BoxShape.circle,
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.2),
+                              blurRadius: 3,
+                            ),
+                          ],
+                        ),
+                        child: Center(
+                          child: Text(
+                            '${index + 1}',
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 8,
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        'Item ${index + 1}',
+                        style: const TextStyle(fontSize: 8),
+                      ),
+                    ],
+                  ),
+                );
+              }),
+            ),
+            const SizedBox(height: 16),
+            Container(
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: Colors.white.withOpacity(0.8),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Column(
+                children: [
+                  const Text(
+                    '⚠️ Heavy Widget',
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    '매번 rebuild 시 ${duration}ms 소요',
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: Colors.red.shade700,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    '계산 결과: ${result.toStringAsFixed(2)}',
+                    style: const TextStyle(fontSize: 10),
+                  ),
+                  Text(
+                    '위젯 개수: 500개 매번 생성',
+                    style: TextStyle(fontSize: 10, color: Colors.red.shade700),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -84,9 +214,7 @@ class BadListExample extends StatelessWidget {
     return ListView(
       children: List.generate(
         1000,
-        (index) => ListTile(
-          title: Text('Item $index'),
-        ),
+        (index) => ListTile(title: Text('Item $index')),
       ),
     );
   }
@@ -118,4 +246,3 @@ class BadObjectCreation extends StatelessWidget {
     );
   }
 }
-

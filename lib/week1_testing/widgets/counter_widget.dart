@@ -91,3 +91,116 @@ class _CounterWidgetState extends State<CounterWidget> {
     );
   }
 }
+
+class MyWidget extends StatelessWidget {
+  const MyWidget({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    // Container
+    // ㄴ Column
+    //   ㄴ Icon
+    //   ㄴ SizedBox
+    //     ㄴ Text
+    //   ㄴ Text
+    //   ㄴ SizedBox
+    //     ㄴ Row
+    //       ㄴ Icon
+    //       ㄴ Text
+
+    AppBar(
+      leading: Icon(Icons.add),
+      title: Text('My Recipe App'),
+      actions: [
+        Icon(Icons.abc, size: 30, color: Colors.red),
+        Text('Hello'),
+      ],
+    );
+
+    return Container(
+      child: Column(
+        children: [
+          Icon(Icons.add),
+          SizedBox(height: 5, child: Text('Hello2')),
+          Text('Hello'),
+          SizedBox(child: Row(children: [Icon(Icons.add), Text('Hello3')])),
+        ],
+      ),
+    );
+  }
+}
+
+class SeatPage extends StatefulWidget {
+  const SeatPage({super.key});
+
+  @override
+  State<SeatPage> createState() => _SeatPageState();
+}
+
+class _SeatPageState extends State<SeatPage> {
+  int? selectRow;
+  int? selectColumn;
+
+  void onSelected(int row, int column) {
+    setState(() {
+      selectRow = row;
+      selectColumn = column;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SeatSelectBox(selectRow, selectColumn, onSelected);
+  }
+}
+
+class SeatSelectBox extends StatefulWidget {
+  SeatSelectBox(this.selectRow, this.selectColumn, this.onSelected);
+
+  int? selectRow;
+  int? selectColumn;
+  void Function(int row, int column) onSelected;
+
+  @override
+  State<SeatSelectBox> createState() => _SeatSelectBoxState();
+}
+
+class _SeatSelectBoxState extends State<SeatSelectBox> {
+  // 얘는 SeatPage의 상태를 모른다.
+
+  // SeatPage에 있는 onSelected를 호출해야 해서
+
+  @override
+  Widget build(BuildContext context) {
+    return const Placeholder();
+  }
+}
+
+class SeatBottom extends StatefulWidget {
+  const SeatBottom({super.key});
+
+  @override
+  State<SeatBottom> createState() => _SeatBottomState();
+}
+
+class _SeatBottomState extends State<SeatBottom> {
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      'aa',
+      style: TextStyle(fontFamily: 'BlackHanSans', fontWeight: FontWeight.w900),
+    );
+  }
+}
+
+class MyAppBarWidget extends StatelessWidget implements PreferredSizeWidget {
+  const MyAppBarWidget({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return AppBar();
+  }
+
+  @override
+  Size get preferredSize => Size.fromHeight(56);
+}

@@ -39,8 +39,25 @@ flutter pub global run devtools
 3. **ListView.builder**
    - 보이는 항목만 렌더링
    - 대량의 목록에 필수
+   - 이미지 리스트에 특히 효과적
 
 4. **적절한 상태 관리**
    - 필요한 부분만 rebuild
    - 상태 범위 최소화
+
+5. **이미지 최적화**
+   - 네트워크 이미지 자동 캐싱
+   - loadingBuilder로 로딩 상태 표시
+   - errorBuilder로 에러 처리
+   - cacheExtent로 미리 로딩 범위 설정
+
+## 네트워크 권한 설정
+
+macOS에서 인터넷 이미지를 사용하려면:
+
+**macos/Runner/DebugProfile.entitlements 및 Release.entitlements:**
+```xml
+<key>com.apple.security.network.client</key>
+<true/>
+```
 

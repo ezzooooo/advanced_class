@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'week2_performance/week2_menu_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -98,7 +99,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const HomePage(),
+      home: HomePage(),
     );
   }
 }
@@ -181,7 +182,102 @@ class _WeekCard extends StatelessWidget {
         title: Text(title),
         subtitle: Text(description),
         trailing: const Icon(Icons.arrow_forward_ios),
+        onTap: () {
+          // Week 2만 구현
+          if (week == 2) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const Week2MenuPage()),
+            );
+          } else {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text('Week $week는 아직 구현되지 않았습니다')),
+            );
+          }
+        },
       ),
+    );
+  }
+}
+
+class TodoEntity {
+  final String title;
+  final String description;
+  final bool isDone;
+  final bool isFavorite;
+
+  TodoEntity({
+    required this.title,
+    required this.description,
+    required this.isDone,
+    required this.isFavorite,
+  });
+}
+
+void addTodo(BuildContext context) {
+  List<TodoEntity> todoList = [];
+
+  void saveTodo(TodoEntity todo) {
+    todoList.add(todo);
+  }
+
+  showModalBottomSheet(
+    context: context,
+    builder: (context) {
+      return AddTodoBottomSheet();
+    },
+  );
+
+  void a() {
+    saveTodo(
+      TodoEntity(
+        title: '텍스트 필드에서 입력한 제목',
+        description: '텍스트 필드에서 입력한 설명',
+        isDone: false,
+        isFavorite: true || false,
+      ),
+    );
+  }
+}
+
+class AddTodoBottomSheet extends StatefulWidget {
+  const AddTodoBottomSheet({super.key});
+
+  @override
+  State<AddTodoBottomSheet> createState() => _AddTodoBottomSheetState();
+}
+
+class _AddTodoBottomSheetState extends State<AddTodoBottomSheet> {
+  TextEditingController titleController = TextEditingController();
+  bool canSave = false;
+
+  @override
+  void initState() {
+    titleController.addListener(() {
+      canSave = titleController.text.isNotEmpty;
+      setState(() {});
+    });
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        TextField(
+          controller: titleController,
+          decoration: InputDecoration(border: InputBorder.none),
+          onSubmitted: (value) {
+            print(value);
+          },
+        ),
+        Row(children: []),
+      ],
     );
   }
 }

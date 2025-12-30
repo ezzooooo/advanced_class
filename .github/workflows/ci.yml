@@ -43,7 +43,7 @@ jobs:
       - name: 🐦 Setup Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.24.0'  # Flutter 버전 지정
+          flutter-version: '3.38.5'  # Flutter 버전 지정
           channel: 'stable'
           cache: true  # 캐시 활성화로 빌드 시간 단축
 
@@ -92,7 +92,7 @@ jobs:
       - name: 🐦 Setup Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.24.0'
+          flutter-version: '3.38.5'
           channel: 'stable'
           cache: true
 
@@ -126,7 +126,7 @@ jobs:
       - name: 🐦 Setup Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.24.0'
+          flutter-version: '3.38.5'
           channel: 'stable'
           cache: true
 
@@ -152,7 +152,7 @@ jobs:
       - name: 🐦 Setup Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.24.0'
+          flutter-version: '3.38.5'
           channel: 'stable'
           cache: true
 

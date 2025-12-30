@@ -1,3 +1,4 @@
+import 'package:advanced_class/main.dart';
 import 'package:flutter/material.dart';
 
 /// 2주차: 성능 최적화 - const 위젯 활용 예제
@@ -24,9 +25,7 @@ class _ConstWidgetDemoState extends State<ConstWidgetDemo> {
     _rebuildCount++;
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('const Widget 데모'),
-      ),
+      appBar: AppBar(title: const Text('const Widget 데모')),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
@@ -104,10 +103,7 @@ class _ConstInfoCard extends StatelessWidget {
           children: [
             Text(
               title,
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                color: color,
-              ),
+              style: TextStyle(fontWeight: FontWeight.bold, color: color),
             ),
             const SizedBox(height: 4),
             Text(description),
@@ -145,10 +141,7 @@ class _NonConstInfoCard extends StatelessWidget {
           children: [
             Text(
               title,
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                color: color,
-              ),
+              style: TextStyle(fontWeight: FontWeight.bold, color: color),
             ),
             const SizedBox(height: 4),
             Text(description),
@@ -165,35 +158,167 @@ class _IdentityChecker extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // 두 const 위젯이 같은 인스턴스인지 확인
-    const widget1 = SizedBox(height: 10);
-    const widget2 = SizedBox(height: 10);
+    // ❌ Case 1: Key factory constructor 사용 → 다른 인스턴스!
+    Widget withKey1 = const MyWidget();
+    Widget withKey2 = const MyWidget();
 
-    final isSameInstance = identical(widget1, widget2);
+    // ✅ Case 2: ValueKey 직접 사용 → 같은 인스턴스!
+    Widget withValueKey1 = const MyWidget(key: ValueKey('widget'));
+    Widget withValueKey2 = const MyWidget(key: ValueKey('widget'));
+
+    // ✅ Case 3: Key 없음 → 같은 인스턴스!
+    Widget noKey1 = const MyWidget();
+    Widget noKey2 = const MyWidget();
+
+    const textA = Text('Hello');
+    const textB = Text('Hello');
+
+    final results = [
+      _TestResult(
+        name: 'Key("widget") 사용',
+        code: 'const SizedBox(key: Key("widget"))',
+        widget1: withKey1,
+        widget2: withKey2,
+      ),
+      _TestResult(
+        name: 'ValueKey("widget") 사용',
+        code: 'const SizedBox(key: ValueKey("widget"))',
+        widget1: withValueKey1,
+        widget2: withValueKey2,
+      ),
+      _TestResult(
+        name: 'Key 없음',
+        code: 'const SizedBox(height: 10)',
+        widget1: noKey1,
+        widget2: noKey2,
+      ),
+      _TestResult(
+        name: 'Text("Hello")',
+        code: 'const Text("Hello")',
+        widget1: textA,
+        widget2: textB,
+      ),
+    ];
+
+    for (final r in results) {
+      print(
+        '🔬 ${r.name}: identical=${r.isIdentical}, addr1=${r.addr1}, addr2=${r.addr2}',
+      );
+    }
 
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(12),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text(
-              '🔬 인스턴스 동일성 테스트',
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 8),
-            Text('const SizedBox(height: 10) 두 개가 같은 인스턴스?'),
-            Text(
-              isSameInstance ? '✅ 예! (identical)' : '❌ 아니오',
-              style: TextStyle(
-                color: isSameInstance ? Colors.green : Colors.red,
-                fontWeight: FontWeight.bold,
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(
+                '🔬 const 위젯 메모리 주소 비교',
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
               ),
-            ),
-          ],
+              const SizedBox(height: 12),
+              ...results.map((r) => _buildResultRow(r)),
+            ],
+          ),
         ),
+      ),
+    );
+  }
+
+  Widget _buildResultRow(_TestResult r) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 12),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            r.name,
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              color: r.isIdentical ? Colors.green : Colors.red,
+            ),
+          ),
+          Text(
+            r.code,
+            style: const TextStyle(fontFamily: 'monospace', fontSize: 11),
+          ),
+          Text(
+            '주소1: 0x${r.addr1.toRadixString(16).toUpperCase()}',
+            style: const TextStyle(fontFamily: 'monospace', fontSize: 11),
+          ),
+          Text(
+            '주소2: 0x${r.addr2.toRadixString(16).toUpperCase()}',
+            style: const TextStyle(fontFamily: 'monospace', fontSize: 11),
+          ),
+          Text(
+            r.isIdentical ? '✅ 같은 메모리!' : '❌ 다른 메모리',
+            style: TextStyle(
+              color: r.isIdentical ? Colors.green : Colors.red,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          const Divider(),
+        ],
       ),
     );
   }
 }
 
+class _TestResult {
+  final String name;
+  final String code;
+  final Widget widget1;
+  final Widget widget2;
+
+  _TestResult({
+    required this.name,
+    required this.code,
+    required this.widget1,
+    required this.widget2,
+  });
+
+  int get addr1 => identityHashCode(widget1);
+  int get addr2 => identityHashCode(widget2);
+  bool get isIdentical => identical(widget1, widget2);
+}
+
+class MyWidget extends StatelessWidget {
+  const MyWidget({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return AddTodoBottomSheet(title: 'title', saveTodo: (todo) {});
+  }
+}
+
+class AddTodoBottomSheet extends StatefulWidget {
+  const AddTodoBottomSheet({
+    super.key,
+    required this.title,
+    required this.saveTodo,
+  });
+
+  final String title;
+  final void Function(TodoEntity todo) saveTodo;
+
+  @override
+  State<AddTodoBottomSheet> createState() => _AddTodoBottomSheetState();
+}
+
+class _AddTodoBottomSheetState extends State<AddTodoBottomSheet> {
+  bool isFavorite = false;
+  bool showDescription = false;
+  String title = '';
+
+  @override
+  Widget build(BuildContext context) {
+    return TextField(); // TextField의 값이 바뀔 때 title 변수에 할당을 해줘야 해요
+  }
+
+  void a() {
+    setState(() {
+      showDescription = !showDescription;
+    });
+  }
+}

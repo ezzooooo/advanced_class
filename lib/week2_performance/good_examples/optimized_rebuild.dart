@@ -20,9 +20,7 @@ class _GoodCounterPageState extends State<GoodCounterPage> {
     print('🟢 GoodCounterPage build() 호출됨');
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Good Example - 최적화된 Rebuild'),
-      ),
+      appBar: AppBar(title: const Text('Good Example - 최적화된 Rebuild')),
       body: Column(
         children: [
           // ✅ const 위젯은 rebuild되지 않음
@@ -50,18 +48,174 @@ class _GoodCounterPageState extends State<GoodCounterPage> {
 }
 
 /// ✅ const 생성자를 사용한 무거운 위젯
-class HeavyWidgetOptimized extends StatelessWidget {
+/// StatefulWidget이지만 상태가 없어서 rebuild되지 않음
+class HeavyWidgetOptimized extends StatefulWidget {
   const HeavyWidgetOptimized({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    print('🟢 HeavyWidgetOptimized build() 호출됨');
+  State<HeavyWidgetOptimized> createState() => _HeavyWidgetOptimizedState();
+}
 
+class _HeavyWidgetOptimizedState extends State<HeavyWidgetOptimized> {
+  late double _calculationResult;
+  late int _buildTime;
+  int _buildCount = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    // 무거운 계산을 initState에서 한 번만 수행
+    final startTime = DateTime.now();
+
+    // 1. 복잡한 수학 계산 (Bad Example과 동일한 무게)
+    _calculationResult = 0;
+    for (int i = 0; i < 5000000; i++) {
+      _calculationResult += i * 0.001;
+      // 추가 연산으로 더 무겁게
+      if (i % 100 == 0) {
+        _calculationResult = _calculationResult / 1.1 + i * 0.5;
+      }
+    }
+
+    // 2. 문자열 연산 (메모리 할당)
+    final heavyStringBuffer = StringBuffer();
+    for (int i = 0; i < 1000; i++) {
+      heavyStringBuffer.write('Heavy calculation $i ');
+    }
+    _calculationResult += heavyStringBuffer.length.toDouble();
+
+    // 3. 리스트 연산
+    final List<int> heavyList = [];
+    for (int i = 0; i < 10000; i++) {
+      heavyList.add(i);
+      if (i % 2 == 0) heavyList.remove(i);
+    }
+    _calculationResult += heavyList.length.toDouble();
+
+    _buildTime = DateTime.now().difference(startTime).inMilliseconds;
+    print('🟢 HeavyWidgetOptimized initState 계산 시간: ${_buildTime}ms (최초 1회만!)');
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    _buildCount++;
+    print('🟢 HeavyWidgetOptimized build() 호출됨 (${_buildCount}번째)');
+
+    // 위젯 트리는 build마다 생성되지만, 무거운 계산은 initState에서만 수행
+    // Bad Example과 동일하게 복잡한 위젯 트리
     return Container(
-      height: 100,
-      color: Colors.green.shade100,
-      child: const Center(
-        child: Text('Heavy Widget (Optimized)'),
+      height: 300,
+      margin: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [Colors.green.shade100, Colors.teal.shade100],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+        borderRadius: BorderRadius.circular(12),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.1),
+            blurRadius: 10,
+            spreadRadius: 2,
+          ),
+        ],
+      ),
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            // Bad Example과 동일하게 500개 위젯 생성
+            Row(
+              children: List.generate(500, (index) {
+                return Container(
+                  margin: const EdgeInsets.all(2),
+                  child: Column(
+                    children: [
+                      Container(
+                        width: 30,
+                        height: 30,
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: [
+                              Colors.primaries[index % Colors.primaries.length],
+                              Colors.primaries[(index + 1) %
+                                  Colors.primaries.length],
+                            ],
+                          ),
+                          shape: BoxShape.circle,
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.2),
+                              blurRadius: 3,
+                            ),
+                          ],
+                        ),
+                        child: Center(
+                          child: Text(
+                            '${index + 1}',
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 8,
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        'Item ${index + 1}',
+                        style: const TextStyle(fontSize: 8),
+                      ),
+                    ],
+                  ),
+                );
+              }),
+            ),
+            const SizedBox(height: 16),
+            Container(
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: Colors.white.withOpacity(0.8),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Column(
+                children: [
+                  const Text(
+                    '✅ Heavy Widget (Optimized)',
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    'const로 선언 → 무거운 계산은 최초 1회만!',
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: Colors.green.shade700,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    'build 횟수: $_buildCount | 계산 시간: ${_buildTime}ms (initState)',
+                    style: const TextStyle(fontSize: 10),
+                  ),
+                  Text(
+                    '계산 결과: ${_calculationResult.toStringAsFixed(2)}',
+                    style: const TextStyle(fontSize: 10),
+                  ),
+                  Text(
+                    '위젯 개수: 500개 (최초 1회만 생성)',
+                    style: TextStyle(
+                      fontSize: 10,
+                      color: Colors.green.shade700,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -94,9 +248,7 @@ class GoodListExample extends StatelessWidget {
     return ListView.builder(
       itemCount: 1000,
       itemBuilder: (context, index) {
-        return ListTile(
-          title: Text('Item $index'),
-        );
+        return ListTile(title: Text('Item $index'));
       },
     );
   }
@@ -194,4 +346,3 @@ class _RepaintBoundaryExampleState extends State<RepaintBoundaryExample>
     );
   }
 }
-
