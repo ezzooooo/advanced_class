@@ -51,6 +51,18 @@
 }
 
 # ===========================
+# Google Play Core 규칙
+# ===========================
+# Flutter의 deferred components 기능을 사용하지 않는 경우
+# Google Play Core 라이브러리 관련 경고 무시
+-dontwarn com.google.android.play.core.splitcompat.**
+-dontwarn com.google.android.play.core.splitinstall.**
+-dontwarn com.google.android.play.core.tasks.**
+
+# Google Play Core 클래스 유지 (필요한 경우)
+-keep class com.google.android.play.core.** { *; }
+
+# ===========================
 # 디버깅을 위한 설정
 # ===========================
 
