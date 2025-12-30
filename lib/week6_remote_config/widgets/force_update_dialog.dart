@@ -25,10 +25,8 @@ class ForceUpdateDialog extends StatelessWidget {
     return showDialog(
       context: context,
       barrierDismissible: false, // 바깥 터치로 닫기 방지
-      builder: (context) => ForceUpdateDialog(
-        result: result,
-        onUpdate: onUpdate,
-      ),
+      builder: (context) =>
+          ForceUpdateDialog(result: result, onUpdate: onUpdate),
     );
   }
 
@@ -46,9 +44,7 @@ class ForceUpdateDialog extends StatelessWidget {
         return true;
       },
       child: AlertDialog(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         title: Row(
           children: [
             Icon(
@@ -69,16 +65,8 @@ class ForceUpdateDialog extends StatelessWidget {
             Text(result.message),
             if (result.currentVersion != null) ...[
               const SizedBox(height: 16),
-              _buildVersionInfo(
-                '현재 버전',
-                result.currentVersion!,
-                Colors.grey,
-              ),
-              _buildVersionInfo(
-                '최소 버전',
-                result.minimumVersion!,
-                Colors.blue,
-              ),
+              _buildVersionInfo('현재 버전', result.currentVersion!, Colors.grey),
+              _buildVersionInfo('최소 버전', result.minimumVersion!, Colors.blue),
             ],
           ],
         ),
@@ -93,10 +81,7 @@ class ForceUpdateDialog extends StatelessWidget {
               onPressed: () => SystemNavigator.pop(),
               child: const Text('종료'),
             ),
-            ElevatedButton(
-              onPressed: onUpdate,
-              child: const Text('업데이트'),
-            ),
+            ElevatedButton(onPressed: onUpdate, child: const Text('업데이트')),
           ],
         ],
       ),
@@ -108,16 +93,10 @@ class ForceUpdateDialog extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 2),
       child: Row(
         children: [
-          Text(
-            '$label: ',
-            style: const TextStyle(color: Colors.grey),
-          ),
+          Text('$label: ', style: const TextStyle(color: Colors.grey)),
           Text(
             version,
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              color: color,
-            ),
+            style: TextStyle(fontWeight: FontWeight.bold, color: color),
           ),
         ],
       ),
@@ -131,10 +110,7 @@ class ForceUpdateDialog extends StatelessWidget {
 class MaintenanceScreen extends StatelessWidget {
   final String message;
 
-  const MaintenanceScreen({
-    super.key,
-    required this.message,
-  });
+  const MaintenanceScreen({super.key, required this.message});
 
   @override
   Widget build(BuildContext context) {
@@ -145,27 +121,17 @@ class MaintenanceScreen extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Icon(
-                Icons.engineering,
-                size: 80,
-                color: Colors.orange,
-              ),
+              const Icon(Icons.engineering, size: 80, color: Colors.orange),
               const SizedBox(height: 24),
               const Text(
                 '서버 점검 중',
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                ),
+                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 16),
               Text(
                 message,
                 textAlign: TextAlign.center,
-                style: const TextStyle(
-                  fontSize: 16,
-                  color: Colors.grey,
-                ),
+                style: const TextStyle(fontSize: 16, color: Colors.grey),
               ),
               const SizedBox(height: 32),
               OutlinedButton.icon(
@@ -180,4 +146,3 @@ class MaintenanceScreen extends StatelessWidget {
     );
   }
 }
-
