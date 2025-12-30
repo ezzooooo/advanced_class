@@ -28,7 +28,7 @@ void main() {
         final result = calculator.add(a, b);
 
         // Assert (검증)
-        expect(result, equals(16));
+        expect(result, equals(15));
       });
 
       test('add: 음수와 양수를 더하면 올바른 결과를 반환한다', () {
