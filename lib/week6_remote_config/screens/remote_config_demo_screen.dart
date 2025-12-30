@@ -38,25 +38,13 @@ class _RemoteConfigDemoScreenState extends State<RemoteConfigDemoScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  _buildSection(
-                    '📱 앱 상태',
-                    _buildAppStatusCard(),
-                  ),
+                  _buildSection('📱 앱 상태', _buildAppStatusCard()),
                   const SizedBox(height: 24),
-                  _buildSection(
-                    '⚙️ Remote Config 값',
-                    _buildRemoteConfigCard(),
-                  ),
+                  _buildSection('⚙️ Remote Config 값', _buildRemoteConfigCard()),
                   const SizedBox(height: 24),
-                  _buildSection(
-                    '🚩 Feature Flags',
-                    _buildFeatureFlagsCard(),
-                  ),
+                  _buildSection('🚩 Feature Flags', _buildFeatureFlagsCard()),
                   const SizedBox(height: 24),
-                  _buildSection(
-                    '🔄 강제 업데이트 체크',
-                    _buildForceUpdateCard(),
-                  ),
+                  _buildSection('🔄 강제 업데이트 체크', _buildForceUpdateCard()),
                 ],
               ),
             ),
@@ -69,10 +57,7 @@ class _RemoteConfigDemoScreenState extends State<RemoteConfigDemoScreen> {
       children: [
         Text(
           title,
-          style: const TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
-          ),
+          style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 8),
         child,
@@ -86,14 +71,8 @@ class _RemoteConfigDemoScreenState extends State<RemoteConfigDemoScreen> {
         padding: const EdgeInsets.all(16),
         child: Column(
           children: [
-            _buildInfoRow(
-              '마지막 Fetch',
-              _remoteConfig.lastFetchTime.toString(),
-            ),
-            _buildInfoRow(
-              'Fetch 상태',
-              _remoteConfig.lastFetchStatus.name,
-            ),
+            _buildInfoRow('마지막 Fetch', _remoteConfig.lastFetchTime.toString()),
+            _buildInfoRow('Fetch 상태', _remoteConfig.lastFetchStatus.name),
           ],
         ),
       ),
@@ -112,10 +91,7 @@ class _RemoteConfigDemoScreenState extends State<RemoteConfigDemoScreen> {
               '점검 모드',
               _remoteConfig.isMaintenanceMode ? '🔴 ON' : '🟢 OFF',
             ),
-            _buildInfoRow(
-              '최대 업로드 크기',
-              '${_remoteConfig.maxUploadSizeMB} MB',
-            ),
+            _buildInfoRow('최대 업로드 크기', '${_remoteConfig.maxUploadSizeMB} MB'),
             _buildInfoRow('API URL', _remoteConfig.apiBaseUrl),
           ],
         ),
@@ -277,9 +253,7 @@ class _RemoteConfigDemoScreenState extends State<RemoteConfigDemoScreen> {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text(
-              updated ? '설정이 업데이트되었습니다!' : '변경된 설정이 없습니다.',
-            ),
+            content: Text(updated ? '설정이 업데이트되었습니다!' : '변경된 설정이 없습니다.'),
             backgroundColor: updated ? Colors.green : Colors.grey,
           ),
         );
@@ -288,10 +262,7 @@ class _RemoteConfigDemoScreenState extends State<RemoteConfigDemoScreen> {
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('오류: $e'),
-            backgroundColor: Colors.red,
-          ),
+          SnackBar(content: Text('오류: $e'), backgroundColor: Colors.red),
         );
       }
     } finally {
@@ -306,9 +277,8 @@ class _RemoteConfigDemoScreenState extends State<RemoteConfigDemoScreen> {
     // Android: 'https://play.google.com/store/apps/details?id=패키지명'
     // iOS: 'https://apps.apple.com/app/id앱ID'
 
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('스토어로 이동합니다...')),
-    );
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(const SnackBar(content: Text('스토어로 이동합니다...')));
   }
 }
-

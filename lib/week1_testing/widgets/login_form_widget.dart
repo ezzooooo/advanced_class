@@ -7,10 +7,7 @@ import '../utils/string_utils.dart';
 /// 로그인 폼 위젯입니다.
 /// 입력 검증 로직과 UI 인터랙션을 테스트합니다.
 class LoginFormWidget extends StatefulWidget {
-  const LoginFormWidget({
-    super.key,
-    this.onLogin,
-  });
+  const LoginFormWidget({super.key, this.onLogin});
 
   final void Function(String email, String password)? onLogin;
 
@@ -72,10 +69,7 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
         _isLoading = false;
       });
 
-      widget.onLogin?.call(
-        _emailController.text,
-        _passwordController.text,
-      );
+      widget.onLogin?.call(_emailController.text, _passwordController.text);
     }
   }
 
@@ -125,9 +119,7 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
                 Text(
                   _errorMessage!,
                   key: const Key('error_message'),
-                  style: TextStyle(
-                    color: Theme.of(context).colorScheme.error,
-                  ),
+                  style: TextStyle(color: Theme.of(context).colorScheme.error),
                   textAlign: TextAlign.center,
                 ),
               ],
@@ -150,4 +142,3 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
     );
   }
 }
-

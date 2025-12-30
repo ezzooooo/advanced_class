@@ -87,7 +87,8 @@ class FCMService {
     // Android 알림 채널 생성
     await _localNotifications
         .resolvePlatformSpecificImplementation<
-            AndroidFlutterLocalNotificationsPlugin>()
+          AndroidFlutterLocalNotificationsPlugin
+        >()
         ?.createNotificationChannel(_channel);
   }
 
@@ -226,4 +227,3 @@ Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   debugPrint('📩 Background message: ${message.messageId}');
   // Background에서 할 작업 수행
 }
-

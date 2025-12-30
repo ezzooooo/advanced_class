@@ -34,9 +34,9 @@ class _NotificationDemoScreenState extends State<NotificationDemoScreen> {
       }
     });
     if (mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('$topic 토픽 구독 완료')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('$topic 토픽 구독 완료')));
     }
   }
 
@@ -44,18 +44,16 @@ class _NotificationDemoScreenState extends State<NotificationDemoScreen> {
     await _fcmService.unsubscribeFromTopic(topic);
     setState(() => _subscribedTopics.remove(topic));
     if (mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('$topic 토픽 구독 해제')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('$topic 토픽 구독 해제')));
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Push Notification Demo'),
-      ),
+      appBar: AppBar(title: const Text('Push Notification Demo')),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Column(
@@ -148,10 +146,7 @@ class _NotificationDemoScreenState extends State<NotificationDemoScreen> {
                   SizedBox(height: 12),
                   Text(
                     '또는 위의 FCM 토큰을 복사하여\nFirebase Console에서 테스트 메시지 전송',
-                    style: TextStyle(
-                      color: Colors.grey,
-                      fontSize: 12,
-                    ),
+                    style: TextStyle(color: Colors.grey, fontSize: 12),
                   ),
                 ],
               ),
@@ -162,26 +157,17 @@ class _NotificationDemoScreenState extends State<NotificationDemoScreen> {
     );
   }
 
-  Widget _buildSection({
-    required String title,
-    required Widget child,
-  }) {
+  Widget _buildSection({required String title, required Widget child}) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           title,
-          style: const TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
-          ),
+          style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 12),
         Card(
-          child: Padding(
-            padding: const EdgeInsets.all(16),
-            child: child,
-          ),
+          child: Padding(padding: const EdgeInsets.all(16), child: child),
         ),
       ],
     );
@@ -242,21 +228,12 @@ class _StatusExplanation extends StatelessWidget {
             children: [
               Text(
                 state,
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: color,
-                ),
+                style: TextStyle(fontWeight: FontWeight.bold, color: color),
               ),
-              Text(
-                description,
-                style: const TextStyle(fontSize: 12),
-              ),
+              Text(description, style: const TextStyle(fontSize: 12)),
               Text(
                 '→ $behavior',
-                style: TextStyle(
-                  fontSize: 12,
-                  color: Colors.grey.shade600,
-                ),
+                style: TextStyle(fontSize: 12, color: Colors.grey.shade600),
               ),
             ],
           ),
@@ -265,4 +242,3 @@ class _StatusExplanation extends StatelessWidget {
     );
   }
 }
-

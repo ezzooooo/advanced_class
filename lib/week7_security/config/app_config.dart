@@ -95,4 +95,3 @@ class FirebaseConfig {
 
   // 다른 Firebase 설정들...
 }
-

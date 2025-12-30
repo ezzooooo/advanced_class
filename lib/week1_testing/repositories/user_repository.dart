@@ -106,4 +106,3 @@ class ApiUserRepository implements UserRepository {
     await Future.delayed(const Duration(milliseconds: 500));
   }
 }
-

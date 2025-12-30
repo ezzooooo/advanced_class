@@ -184,10 +184,7 @@ class _KeyTypeItem extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          title,
-          style: const TextStyle(fontWeight: FontWeight.bold),
-        ),
+        Text(title, style: const TextStyle(fontWeight: FontWeight.bold)),
         Text(description, style: const TextStyle(fontSize: 12)),
         Text(
           example,
@@ -201,4 +198,3 @@ class _KeyTypeItem extends StatelessWidget {
     );
   }
 }
-

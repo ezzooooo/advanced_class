@@ -97,7 +97,9 @@ class _HeavyWidgetOptimizedState extends State<HeavyWidgetOptimized> {
 
     _buildTime = DateTime.now().difference(startTime).inMilliseconds;
     if (kDebugMode) {
-      print('🟢 HeavyWidgetOptimized initState 계산 시간: ${_buildTime}ms (최초 1회만!)');
+      print(
+        '🟢 HeavyWidgetOptimized initState 계산 시간: ${_buildTime}ms (최초 1회만!)',
+      );
     }
   }
 

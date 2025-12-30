@@ -60,17 +60,15 @@ class _SecurityDemoScreenState extends State<SecurityDemoScreen> {
   }
 
   void _showSnackBar(String message) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(message)),
-    );
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(SnackBar(content: Text(message)));
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('보안 데모'),
-      ),
+      appBar: AppBar(title: const Text('보안 데모')),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Column(
@@ -103,10 +101,7 @@ class _SecurityDemoScreenState extends State<SecurityDemoScreen> {
   Widget _buildSectionTitle(String title) {
     return Text(
       title,
-      style: const TextStyle(
-        fontSize: 20,
-        fontWeight: FontWeight.bold,
-      ),
+      style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
     );
   }
 
@@ -127,17 +122,11 @@ class _SecurityDemoScreenState extends State<SecurityDemoScreen> {
             const Divider(),
             _buildConfigItem('앱 이름', _config.appName),
             const Divider(),
-            _buildConfigItem(
-              '로깅 활성화',
-              _config.enableLogging ? '✅ 예' : '❌ 아니오',
-            ),
+            _buildConfigItem('로깅 활성화', _config.enableLogging ? '✅ 예' : '❌ 아니오'),
             const SizedBox(height: 16),
             const Text(
               '💡 빌드 시 --dart-define=ENV=prod 로 환경 변경',
-              style: TextStyle(
-                fontSize: 12,
-                color: Colors.grey,
-              ),
+              style: TextStyle(fontSize: 12, color: Colors.grey),
             ),
           ],
         ),
@@ -165,10 +154,7 @@ class _SecurityDemoScreenState extends State<SecurityDemoScreen> {
           Text(label),
           Text(
             value,
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              color: valueColor,
-            ),
+            style: TextStyle(fontWeight: FontWeight.bold, color: valueColor),
           ),
         ],
       ),
@@ -340,10 +326,7 @@ class _ChecklistItem extends StatelessWidget {
                 ),
                 Text(
                   description,
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: Colors.grey.shade600,
-                  ),
+                  style: TextStyle(fontSize: 12, color: Colors.grey.shade600),
                 ),
               ],
             ),
@@ -353,4 +336,3 @@ class _ChecklistItem extends StatelessWidget {
     );
   }
 }
-
