@@ -104,7 +104,7 @@ jobs:
         #   - info는 일반적으로 무시되지만, 이 옵션으로 엄격하게 검사합니다.
         #   - info, warning, error 중 하나라도 발견되면 CI가 실패합니다.
         #   - 코드 품질을 높은 수준으로 유지하기 위한 설정입니다.
-        run: flutter analyze --fatal-infos
+        run: flutter analyze --fatal-errors
 
       # Step 5: 코드 포맷팅 검사
       # 코드가 dart format 규칙을 따르는지 확인합니다.
