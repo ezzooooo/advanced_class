@@ -19,14 +19,13 @@ class ForceUpdateDialog extends StatelessWidget {
   /// 강제 업데이트 다이얼로그 표시
   static Future<void> show(
     BuildContext context, {
-    required UpdateCheckResult result,
-    required VoidCallback onUpdate,
-  }) {
-    print('result: $result');
 
+       required UpdateCheckResult result,
+    required VoidCallback onUpdate,
+  })      {
     return showDialog(
-      context: context,
-      barrierDismissible: false, // 바깥 터치로 닫기 방지
+         context: context,
+             barrierDismissible: false, // 바깥 터치로 닫기 방지
       builder: (context) =>
           ForceUpdateDialog(result: result, onUpdate: onUpdate),
     );
