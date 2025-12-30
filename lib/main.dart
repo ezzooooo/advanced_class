@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'week2_performance/week2_menu_page.dart';
 
+// 메인 주석 추가
 void main() {
   runApp(const MyApp());
 }
