@@ -1,0 +1,12 @@
+# iOS Fastlane Appfile
+# App Store Connect 설정
+
+# 앱 Bundle Identifier
+app_identifier("com.example.advancedClass")
+
+# Apple ID (App Store Connect 계정)
+apple_id("your-email@example.com")
+
+# 개발자 팀 ID (Apple Developer 계정에서 확인)
+team_id("YOUR_TEAM_ID")
+

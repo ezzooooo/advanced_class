@@ -1,0 +1,57 @@
+# iOS Fastlane Fastfile
+# 자동화된 배포 스크립트
+
+default_platform(:ios)
+
+platform :ios do
+  desc "Build and upload to TestFlight"
+  lane :beta do
+    # 빌드 번호 자동 증가
+    increment_build_number(
+      xcodeproj: "Runner.xcodeproj"
+    )
+    
+    # Flutter 빌드
+    sh("cd ../.. && flutter build ios --release --no-codesign")
+    
+    # Archive 생성
+    build_app(
+      workspace: "Runner.xcworkspace",
+      scheme: "Runner",
+      export_method: "app-store",
+      output_directory: "./build"
+    )
+    
+    # TestFlight 업로드
+    upload_to_testflight(
+      skip_waiting_for_build_processing: true
+    )
+  end
+
+  desc "Build and upload to App Store"
+  lane :release do
+    # 빌드 번호 자동 증가
+    increment_build_number(
+      xcodeproj: "Runner.xcodeproj"
+    )
+    
+    # Flutter 빌드
+    sh("cd ../.. && flutter build ios --release --no-codesign")
+    
+    # Archive 생성
+    build_app(
+      workspace: "Runner.xcworkspace",
+      scheme: "Runner",
+      export_method: "app-store",
+      output_directory: "./build"
+    )
+    
+    # App Store 업로드
+    upload_to_app_store(
+      skip_metadata: true,
+      skip_screenshots: true,
+      force: true
+    )
+  end
+end
+

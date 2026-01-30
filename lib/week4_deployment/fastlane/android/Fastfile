@@ -1,0 +1,36 @@
+# Android Fastlane Fastfile
+# 자동화된 배포 스크립트
+
+default_platform(:android)
+
+platform :android do
+  desc "Build release AAB"
+  lane :build do
+    sh("cd ../.. && flutter build appbundle --release")
+  end
+
+  desc "Upload to Play Store Internal Testing"
+  lane :beta do
+    build
+    upload_to_play_store(
+      track: 'internal',
+      aab: '../../build/app/outputs/bundle/release/app-release.aab',
+      skip_upload_metadata: true,
+      skip_upload_images: true,
+      skip_upload_screenshots: true
+    )
+  end
+
+  desc "Upload to Play Store Production"
+  lane :release do
+    build
+    upload_to_play_store(
+      track: 'production',
+      aab: '../../build/app/outputs/bundle/release/app-release.aab',
+      skip_upload_metadata: true,
+      skip_upload_images: true,
+      skip_upload_screenshots: true
+    )
+  end
+end
+

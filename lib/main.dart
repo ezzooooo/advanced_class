@@ -1,9 +1,20 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'week2_performance/week2_menu_page.dart';
+import 'week5_push_notification/services/fcm_service.dart';
+import 'week5_push_notification/screens/notification_demo_screen.dart';
 
 // 메인 주석 추가
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  
+  // Background 메시지 핸들러 등록 (Firebase 초기화 전에!)
+  FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
+  
+  // FCM 서비스 초기화
+  await FCMService().initialize();
+  
   runApp(const MyApp());
 }
 
@@ -200,11 +211,17 @@ class _WeekCard extends StatelessWidget {
         subtitle: Text(description),
         trailing: const Icon(Icons.arrow_forward_ios),
         onTap: () {
-          // Week 2만 구현
           if (week == 2) {
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => const Week2MenuPage()),
+            );
+          } else if (week == 5) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const NotificationDemoScreen(),
+              ),
             );
           } else {
             ScaffoldMessenger.of(context).showSnackBar(

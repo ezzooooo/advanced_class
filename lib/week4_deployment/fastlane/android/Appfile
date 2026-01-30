@@ -1,0 +1,9 @@
+# Android Fastlane Appfile
+# Google Play Console 설정
+
+# Google Play 서비스 계정 JSON 파일 경로
+json_key_file("../google-play-service-account.json")
+
+# 앱 패키지 이름
+package_name("com.example.advanced_class")
+
